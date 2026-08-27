@@ -3,6 +3,7 @@
 #include "../game/game.h"
 #include "platform.h"
 
+#include <windef.h>
 #include <winbase.h>
 #include <fileapi.h>
 #include <libloaderapi.h>
@@ -30,7 +31,7 @@ check_game_code_mod_time()
     HANDLE file_handle = FindFirstFileA(GAME_CODE_FILE_NAME, &file_info);
     if (file_handle != NULL) {
         // error
-        return 0;
+        return file_info_ftLastWriteTime;
     }
     FindCloseA(file_handle);
     return file_info.ftLastWriteTime;
