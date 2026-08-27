@@ -22,3 +22,4 @@ typedef i64 b64;
 // Max & Min Macros
 #define Min(A,B) (((A)<(B))?(A):(B))
 #define Max(A,B) (((A)>(B))?(A):(B))
+#define Assert(Expression) if (!(Expression)) {*((i32*)0) = 0;}
