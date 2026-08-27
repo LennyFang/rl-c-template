@@ -31,7 +31,7 @@ check_game_code_mod_time()
     HANDLE file_handle = FindFirstFileA(GAME_CODE_FILE_NAME, &file_info);
     if (file_handle != NULL) {
         // error
-        return file_info_ftLastWriteTime;
+        return file_info.ftLastWriteTime;
     }
     FindCloseA(file_handle);
     return file_info.ftLastWriteTime;
@@ -87,7 +87,7 @@ main()
     while (!WindowShouldClose()) {
         FILETIME mod_time = check_game_code_mod_time();
         // mod_time > lib_mod_time
-        if (CompareFileTime(mod_time, game_code.lib_mod_time) == 1) {
+        if (CompareFileTime(&mod_time, &game_code.lib_mod_time) == 1) {
             unload_game_code(&game_code);
             game_code = load_game_code();
         }
