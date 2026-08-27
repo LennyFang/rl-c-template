@@ -33,7 +33,7 @@ check_game_code_mod_time()
         // error
         return file_info.ftLastWriteTime;
     }
-    FindCloseA(file_handle);
+    FindClose(file_handle);
     return file_info.ftLastWriteTime;
 }
 
