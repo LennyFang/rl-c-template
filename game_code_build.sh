@@ -8,7 +8,7 @@ case $1 in # First arg is os
         ;;
     "mac")
         OS=MAC
-        gcc -Wall -Og -fPIC -shared src/game/game.c src/vendor/raylib/mac/libraylib.so.6.0.0 -lGL -lm -lpthread -ldl -lrt -lX11 -Wl,-rpath,src/vendor/raylib/mac -o ./bin/game.so 
+        clang -Wall -Og -framework CoreVideo -framework IOKit -framework Cocoa -framework GLUT -framework OpenGL -shared -fPIC ./src/game/game.c ./src/vendor/raylib/mac/libraylib.6.0.0.dylib -Wl,-rpath,./src/vendor/raylib/mac -o ./bin/game.dylib
         ;;
 
     "windows")
