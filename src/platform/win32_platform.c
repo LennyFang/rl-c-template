@@ -3,7 +3,9 @@
 #include "../game/game.h"
 #include "platform.h"
 
-#include <win32.h>
+#include <winbase.h>
+#include <fileapi.h>
+#include <libloaderapi.h>
 #include <stdio.h>
 #include <stdlib.h>
 
