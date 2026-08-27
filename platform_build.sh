@@ -9,6 +9,7 @@ case $1 in # First arg is os
         ;;
     "mac")
         OS=MAC
+        gcc -DOS -Wall -Og src/platform/linux_platform.c ./src/vendor/raylib/mac/libraylib.so.6.0.0 -lGL -lm -lpthread -ldl -lrt -lX11 -Wl,-rpath,./src/vendor/raylib/mac -o ./bin/main.bin
         ;;
 
     "windows")
