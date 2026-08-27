@@ -70,7 +70,7 @@ check_game_code_mod_time()
         // error
         return 0;
     }
-    return file_info.st_ctime;
+    return file_info.st_mtime;
 }
 
 Game_Code
