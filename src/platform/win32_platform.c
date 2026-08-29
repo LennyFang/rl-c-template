@@ -24,6 +24,17 @@ struct Game_Code
     b8 is_valid;
 };
 
+typedef struct Game_Code Game_Code;
+struct Game_Code 
+{
+    HMODULE game_lib;
+    Game_Update_Render_Func* game_update_render;
+    FILETIME lib_mod_time;
+    f32 check_delta;
+    b8 is_mod_time_changing;
+    b8 is_valid;
+};
+
 FILETIME
 check_game_code_mod_time()
 {
@@ -85,13 +96,30 @@ main()
     InitWindow(400, 400, "Test");
     SetTargetFPS(60);
     while (!WindowShouldClose()) {
+        // NOTE: All this code is just to check the mod time every MOD_CHECK_DURATION to see if the mod time is stablized
+        // Since the orginal game code lib is modified mulitple times before fully writen to so reloading right at the first
+        // mod time produces errors
         FILETIME mod_time = check_game_code_mod_time();
         // mod_time > lib_mod_time
-        if (CompareFileTime(&mod_time, &game_code.lib_mod_time) == 1) {
-            unload_game_code(&game_code);
-            game_code = load_game_code();
+        if (!game_code.is_mod_time_changing && CompareFileTime(&mod_time, &game_code.lib_mod_time) == 1)
+        {
+            game_code.check_delta = 0;
+            game_code.is_mod_time_changing = true;
+            game_code.lib_mod_time = mod_time;
         }
-        game_code.game_update_render(game_mem);
+        else if (game_code.is_mod_time_changing)
+        {
+            game_code.check_delta += GetFrameTime();
+            if (game_code.check_delta > MOD_CHECK_DURATION)
+            {
+                if (CompareFileTime(&mod_time, &game_code.lib_mod_time) == 0)
+                {
+                    game_code.is_mod_time_changing = false;
+                    unload_game_code(&game_code);
+                    game_code = load_game_code();
+                }
+            } 
+        }
     }
 
     free(game_mem);
