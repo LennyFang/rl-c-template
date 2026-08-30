@@ -13,6 +13,7 @@ case $1 in # First arg is os
 
     "windows")
         OS=WINDOWS
+        gcc -Wall -Og -fPIC -shared src/game/game.c src/vendor/raylib/windows/raylib.dll -lgdi32 -lwinmm -Wl,-rpath,src/vendor/raylib/windows -o ./bin/game.dll
         ;;
     *)
         echo First argument should be the os for what you want to build to!
