@@ -2,25 +2,49 @@
 
 #define SPEED 10
 
+void 
+handle_input(Game_Memory* mem)
+{
+    mem->input_state = 0;
+    if (IsKeyDown(KEY_W)) mem->input_state |= Input_Move_Up;
+    if (IsKeyDown(KEY_S)) mem->input_state |= Input_Move_Down;
+    if (IsKeyDown(KEY_A)) mem->input_state |= Input_Move_Left;
+    if (IsKeyDown(KEY_D)) mem->input_state |= Input_Move_Right;
+}
+
+inline b32
+check_input_down(Game_Memory* mem, enum Semantic_Input input)
+{
+    return mem->input_state & input;
+}
+
 GAME_UPDATE_RENDER(game_update_render)
 {
-    if (!mem->toggle) {
-        mem->player_pos.x += SPEED;
-        mem->player_pos.y += SPEED;
-        if (mem->player_pos.x >= 400) {
-            mem->toggle = true;
-        }
-    } else {
-        mem->player_pos.x -= SPEED;
+    handle_input(mem);
+
+    if (check_input_down(mem, Input_Move_Up))
+    {
         mem->player_pos.y -= SPEED;
-        if (mem->player_pos.x <= 0) {
-            mem->toggle = false;
-        }
     }
+
+    if (check_input_down(mem, Input_Move_Down))
+    {
+        mem->player_pos.y += SPEED;
+    }
+
+    if (check_input_down(mem, Input_Move_Left))
+    {
+        mem->player_pos.x -= SPEED;
+    }
+
+    if (check_input_down(mem, Input_Move_Right))
+    {
+        mem->player_pos.x += SPEED;
+    }
+
 
     BeginDrawing();
     ClearBackground(RAYWHITE);
-    DrawCircleV(mem->player_pos, 8, RED);
-    DrawCircleV(mem->player_pos, 8, BLUE);
+    DrawCircleV(mem->player_pos, 16, GREEN);
     EndDrawing();
 }
