@@ -21,15 +21,6 @@ struct Game_Code
     HMODULE game_lib;
     Game_Update_Render_Func* game_update_render;
     FILETIME lib_mod_time;
-    b8 is_valid;
-};
-
-typedef struct Game_Code Game_Code;
-struct Game_Code 
-{
-    HMODULE game_lib;
-    Game_Update_Render_Func* game_update_render;
-    FILETIME lib_mod_time;
     f32 check_delta;
     b8 is_mod_time_changing;
     b8 is_valid;
