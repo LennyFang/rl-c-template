@@ -14,6 +14,7 @@
 
 #define GAME_CODE_FILE_NAME "./bin/game.dll"
 #define GAME_CODE_COPY_NAME "./bin/temp_game.dll"
+#define MOD_CHECK_DURATION 0.25
 
 typedef struct Game_Code Game_Code;
 struct Game_Code 
