@@ -112,6 +112,8 @@ main()
                 }
             } 
         }
+
+        game_code.game_update_render(game_mem);
     }
 
     free(game_mem);
