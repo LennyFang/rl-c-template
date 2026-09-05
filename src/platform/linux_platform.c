@@ -1,16 +1,15 @@
-#include "../vendor/raylib/raylib.h"
-#include "../base/base.h"
+#include "../vendor/raylib/raylib_includes.h"
+#include "../base/base_includes.h"
 #include "../game/game.h"
-#include "platform.h"
 
-#include <dlfcn.h>
+#include <dlfcn.h> // for loading dynamic libs
 #include <stdio.h>
 #include <stdlib.h>
-#include <sys/stat.h>
-#include <fcntl.h>
+#include <sys/stat.h> // getting file mod times
+#include <fcntl.h> 
 #include <unistd.h>
 
-#include "../base/base.c"
+#include "../base/base_includes.c"
 
 #define GAME_CODE_FILE_NAME "./bin/game.so"
 #define GAME_CODE_COPY_NAME "./bin/temp_game.so"
@@ -21,6 +20,7 @@ struct Game_Code
 {
     void* game_lib;
     Game_Update_Render_Func* game_update_render;
+    Init_Game_Memory_Func* init_game_memory;
     i64 lib_mod_time;
     f32 check_delta;
     b8 is_mod_time_changing;
@@ -87,7 +87,8 @@ load_game_code()
     {
         game_code.game_lib = game_lib;
         game_code.game_update_render = (Game_Update_Render_Func*)dlsym(game_lib, "game_update_render");
-        game_code.is_valid = (game_code.game_update_render != NULL);
+        game_code.init_game_memory = (Init_Game_Memory_Func*)dlsym(game_lib, "init_game_memory");
+        game_code.is_valid = (game_code.game_update_render != NULL && game_code.init_game_memory != NULL);
         game_code.lib_mod_time = check_game_code_mod_time();
         printf("Reloading game code...\n");
     } 
@@ -99,6 +100,7 @@ load_game_code()
     if (!game_code.is_valid)
     {
         game_code.game_update_render = game_update_render_stub;
+        game_code.init_game_memory = init_game_memory_stub;
     }
     return game_code;
 }
@@ -118,7 +120,15 @@ int
 main()
 {
     Game_Memory* game_mem = calloc(1, sizeof(Game_Memory));
+
+    void* persist_mem = calloc(1, MB);
+    void* temp_mem = calloc(1, MB);
+    game_mem->persist_arena = arena_init(persist_mem, MB);
+    game_mem->temp_arena = arena_init(temp_mem, MB);
+
     Game_Code game_code = load_game_code();
+
+    game_code.init_game_memory(game_mem);
 
     InitWindow(400, 400, "Test");
     SetTargetFPS(60);
