@@ -13,6 +13,7 @@ void*
 arena_allocate(Arena* arena, u64 size)
 {
     if (arena->len + size > arena->cap) {
+        printf("Arena is overflowing\n");
         return NULL;
     }
     void* block = (void*)(((u8*)arena->init_pos) + arena->len);
