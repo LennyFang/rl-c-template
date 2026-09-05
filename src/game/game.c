@@ -18,6 +18,11 @@ check_input_down(Game_Memory* mem, enum Semantic_Input input)
     return mem->input_state & input;
 }
 
+INIT_GAME_MEMORY(init_game_memory)
+{
+    mem->emitter = init_emitter(&mem->temp_arena, 1.0f, 0.1f, 1);
+}
+
 GAME_UPDATE_RENDER(game_update_render)
 {
     handle_input(mem);
@@ -42,9 +47,9 @@ GAME_UPDATE_RENDER(game_update_render)
         mem->player_pos.x += SPEED;
     }
 
-
     BeginDrawing();
     ClearBackground(RAYWHITE);
     DrawCircleV(mem->player_pos, 16, GREEN);
+    uar_emitter(&mem->emitter, GetFrameTime());
     EndDrawing();
 }
