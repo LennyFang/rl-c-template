@@ -58,7 +58,20 @@ void uar_emitter(Emitter* emitter, f32 delta)
                 break;
             }
             // TODO: Change pos to spawn depending on the shape rn it is just point
-            emitter->particle_pos[emitter->current_particles] = emitter->pos;
+            switch (emitter->shape)
+            {
+                case Shape_Point:
+                    emitter->particle_pos[emitter->current_particles] = emitter->pos;
+                    break;
+                case Shape_Rectangle:
+                    emitter->particle_pos[emitter->current_particles] = (Vector2){rand_f32_range(emitter->pos.x, emitter->pos.x + emitter->size.dim.x), rand_f32_range(emitter->pos.y, emitter->pos.y + emitter->size.dim.y)};
+                    break;
+                case Shape_Circle:
+                    f32 angle = rand_f32_range(0, PI*2.0);
+                    f32 len = rand_f32_range(emitter->size.inner_radius, emitter->size.outer_radius);
+                    emitter->particle_pos[emitter->current_particles] = (Vector2){emitter->pos.x + cosf(angle)*len, emitter->pos.y + sinf(angle)*len};
+                    break;
+            }
             emitter->particle_vel[emitter->current_particles] = (Vector2){rand_f32_range(emitter->init_vel_min.x, emitter->init_vel_max.x), rand_f32_range(emitter->init_vel_min.y, emitter->init_vel_max.y)};
             emitter->particle_time[emitter->current_particles] = 0.0f;
             emitter->current_particles += 1;

@@ -7,6 +7,16 @@ enum Emitter_Shape
     Shape_Count
 };
 
+typedef union Emitter_Size Emitter_Size;
+union Emitter_Size
+{
+    Vector2 dim;
+    struct {
+        f32 outer_radius;
+        f32 inner_radius;
+    }
+};
+
 typedef struct Emitter Emitter;
 struct Emitter
 {
@@ -24,6 +34,7 @@ struct Emitter
     // Spawner Shape
     Emitter_Shape shape;
     Vector2 pos;
+    Emitter_Size size;
 
     // Runtime Trackers
     f32 timer;
