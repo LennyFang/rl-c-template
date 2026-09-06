@@ -22,4 +22,13 @@ typedef i64 b64;
 // Max & Min Macros
 #define Min(A,B) (((A)<(B))?(A):(B))
 #define Max(A,B) (((A)>(B))?(A):(B))
+
+// Debug Stuff
+#ifdef DEBUG
 #define Assert(Expression) if (!(Expression)) {*((i32*)0) = 0;}
+#define DebugLog(format, ...) \
+    printf("[DEBUG] " format "\n" __VA_OPT__(,) __VA_ARGS__);
+#else
+#define Assert(Expression)
+#define DebugLog(format, ...)
+#endif
