@@ -13,7 +13,7 @@ fi
 case $1 in # First arg is os
     "linux")
         OS=LINUX
-        gcc $DEBUG -Wall -Og -fPIC -shared src/game/game.c src/vendor/raylib/linux/libraylib.so.6.0.0 -lGL -lm -lpthread -ldl -lrt -lX11 -Wl,-rpath,src/vendor/raylib/linux -o ./bin/game.so 
+        gcc $DEBUG -Wno-switch -Wall -Og -fPIC -shared src/game/game.c src/vendor/raylib/linux/libraylib.so.6.0.0 -lGL -lm -lpthread -ldl -lrt -lX11 -Wl,-rpath,src/vendor/raylib/linux -o ./bin/game.so 
         ;;
     "mac")
         OS=MAC

@@ -14,7 +14,7 @@ fi
 case $1 in # First arg is os
     "linux")
         OS=LINUX
-        gcc $DEBUG -Wall -Og src/platform/linux_platform.c ./src/vendor/raylib/linux/libraylib.so.6.0.0 -lGL -lm -lpthread -ldl -lrt -lX11 -Wl,-rpath,./src/vendor/raylib/linux -o ./bin/main.bin
+        gcc $DEBUG -Wno-switch -Wall -Og src/platform/linux_platform.c ./src/vendor/raylib/linux/libraylib.so.6.0.0 -lGL -lm -lpthread -ldl -lrt -lX11 -Wl,-rpath,./src/vendor/raylib/linux -o ./bin/main.bin
         ;;
     "mac")
         OS=MAC
