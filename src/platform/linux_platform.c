@@ -128,10 +128,11 @@ main()
 
     Game_Code game_code = load_game_code();
 
-    game_code.init_game_memory(game_mem);
 
     InitWindow(400, 400, "Test");
     SetTargetFPS(60);
+
+    game_code.init_game_memory(game_mem);
     // TODO: Maybe change this to a custom loop?
     while (!WindowShouldClose()) 
     {
