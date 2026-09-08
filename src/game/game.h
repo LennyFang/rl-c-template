@@ -1,4 +1,5 @@
 #include "../vendor/raylib/raylib_includes.h"
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include "../base/base_includes.h"
@@ -26,6 +27,8 @@ struct Game_Memory
     Input_State input_state;
     Vector2 player_pos;
     b32 toggle;
+
+    Texture2D tex_atlas;
 
     Emitter emitter;
 
