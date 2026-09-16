@@ -3,5 +3,6 @@
 
 #include "base.h"
 #include "arena.h"
+#include "string.h"
 
 #endif

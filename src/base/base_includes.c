@@ -3,5 +3,6 @@
 
 #include "base.c"
 #include "arena.c"
+#include "string.c"
 
 #endif
