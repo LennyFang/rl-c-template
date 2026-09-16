@@ -22,6 +22,7 @@ typedef i64 b64;
 // Max & Min Macros
 #define Min(A,B) (((A)<(B))?(A):(B))
 #define Max(A,B) (((A)>(B))?(A):(B))
+#define Clamp(A,X,B) (((X)<(A))?(A):((X)>(B))?(B):(X))
 
 // Debug Stuff
 #ifdef DEBUG
