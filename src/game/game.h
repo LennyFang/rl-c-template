@@ -4,9 +4,11 @@
 #include <stdlib.h>
 #include "../base/base_includes.h"
 #include "particle.h"
+#include "../ui/ui_core.h"
 
 #include "../base/base_includes.c"
 #include "particle.c"
+#include "../ui/ui_core.c"
 
 
 enum Semantic_Input
